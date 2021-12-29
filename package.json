@@ -1,0 +1,31 @@
+{
+  "name": "website_2022",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunjaeyoon/website_2022.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunjaeyoon/website_2022/issues"
+  },
+  "homepage": "https://github.com/sunjaeyoon/website_2022#readme",
+  "devDependencies": {
+    "vite": "^2.3.0"
+  },
+  "dependencies": {
+    "@types/dat.gui": "^0.7.7",
+    "@types/three": "^0.134.0",
+    "dat.gui": "^0.7.7",
+    "three": "^0.128.0"
+  }
+}
