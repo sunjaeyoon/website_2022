@@ -4,11 +4,17 @@ import { GUI } from 'dat.gui'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 
-//Animation Object
+//Global Animation Object
 var pointLight, ambientLight;
 var lightHelper, gridHelper;
 var cube;
 
+//Global Variables
+const world = {
+  'cube': {
+    'radius': 10,
+  },
+};
 
 //----------- Object Function
 function createCube() {
@@ -41,9 +47,15 @@ function moveCube() {
     let time = d.getTime();
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
-    cube.position.x = 10*Math.sin(time*0.0005);
-    cube.position.z = 10*Math.cos(time*0.0005);
-    //cube.position.y = (Math.sin(time*0.0005)+Math.cos(time*0.0005))**0.5;
+    cube.rotation.y += 0.01;
+    cube.position.x = world.cube.radius*Math.sin(time*0.0005);
+    cube.position.z = world.cube.radius*Math.cos(time*0.0005);
+}
+
+//------------DAT gui
+function datGUI() {
+  const gui = new GUI();
+  gui.add(world.cube,'radius', 0, 200)
 }
 
 
@@ -61,6 +73,7 @@ function init() {
   window.addEventListener('resize', onWindowResize, false);
 }
 
+//------------Animation function
 function animate() {
   requestAnimationFrame( animate );
   renderer.render( scene, camera );
@@ -78,10 +91,9 @@ camera.position.set(0,1,20);
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
 });
-//const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
-//document.body.appendChild(renderer.domElement)
-new OrbitControls(camera, renderer.domElement)
+//new OrbitControls(camera, renderer.domElement);
 
 init();
 animate();
+datGUI();
