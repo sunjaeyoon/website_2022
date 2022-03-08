@@ -2,38 +2,36 @@ import './style.css';
 import * as THREE from 'three';
 import { GUI } from 'dat.gui'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import Stats from 'three/examples/jsm/libs/stats.module';
+//import Stats from 'three/examples/jsm/libs/stats.module';
 
 //Global Animation Object
-var pointLight, ambientLight;
-var lightHelper, gridHelper;
-var cube;
+var gridHelper;
+var plane;
 
 //Global Variables
-const world = {
-  'cube': {
-    'radius': 10,
-  },
-};
 
 //----------- Object Function
-function createCube() {
-  const geometry = new THREE.BoxGeometry();
-  //const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-  const material = new THREE.MeshPhongMaterial({
-    color:0x00ff00,
-    side: THREE.DoubleSide,  
-    flatShading: THREE.FlatShading,
-  });
-  cube = new THREE.Mesh( geometry, material );
-  scene.add( cube );
+function createImage() {
+  const geometry = new THREE.PlaneGeometry(10,10,10,10);
+  const material = new THREE.PointsMaterial({
+    color: 0xffffff,
+    //side: THREE.DoubleSide,
+    size: 0.01
+  })
+  /*
+  const material = new THREE.ShaderMaterial(
+    {
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      uniforms: {
+        value: new THREE.TextureLoader().load('./image/')
+      }
+    }
+  )*/
 
-  // Cube lights
-  pointLight = new THREE.PointLight(0xffffff);
-  pointLight.position.set(0, 0, 0);
-  lightHelper = new THREE.PointLightHelper(pointLight)
-  ambientLight = new THREE.AmbientLight(0xffffff);
-  scene.add(pointLight,lightHelper)//, ambientLight)
+  plane = new THREE.Points(geometry, material);
+  console.log(plane)
+  scene.add(plane)
 }
 
 function createGrid() {
@@ -55,7 +53,7 @@ function moveCube() {
 //------------DAT gui
 function datGUI() {
   const gui = new GUI();
-  gui.add(world.cube,'radius', 0, 200)
+  //gui.add(world.cube,'radius', 0, 200)
 }
 
 
@@ -68,16 +66,17 @@ function onWindowResize() {
 
 //------------Initialize function
 function init() {
-  createCube();
+  //createCube();
+  createImage();
   createGrid();
-  window.addEventListener('resize', onWindowResize, false);
+  addEventListener('resize', onWindowResize, false);
 }
 
 //------------Animation function
 function animate() {
   requestAnimationFrame( animate );
   renderer.render( scene, camera );
-  moveCube();
+  //moveCube();
   
 };
 
@@ -92,7 +91,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
 });
 renderer.setSize( window.innerWidth, window.innerHeight );
-//new OrbitControls(camera, renderer.domElement);
+new OrbitControls(camera, renderer.domElement);
 
 init();
 animate();
